@@ -1,4 +1,0 @@
-flask==3.0.3
-# kai-client is provided by Keboola at runtime for Kai chat; uncomment if pip-installable
-# in your stack, otherwise the app runs without it and the chat box stays disabled.
-# kai-client

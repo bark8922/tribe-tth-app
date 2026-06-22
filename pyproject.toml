@@ -4,10 +4,10 @@ version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
     "flask>=3.0.0",
+    "kai-client",
 ]
 
 [tool.uv]
 # App is flat scripts (app.py, kai_chat.py), not an installable package.
-# package=false tells uv to install dependencies only and skip building the
-# project, which otherwise fails with "Multiple top-level modules discovered".
+# package=false: install dependencies only, skip building the project.
 package = false

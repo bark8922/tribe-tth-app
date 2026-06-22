@@ -6,6 +6,8 @@ dependencies = [
     "flask>=3.0.0",
 ]
 
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+[tool.uv]
+# App is flat scripts (app.py, kai_chat.py), not an installable package.
+# package=false tells uv to install dependencies only and skip building the
+# project, which otherwise fails with "Multiple top-level modules discovered".
+package = false

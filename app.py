@@ -108,18 +108,18 @@ PAGE = """
  <table>
   <tr><th>Client</th><th>Role</th><th>Category</th><th>TA</th><th>Hired</th>
       <th class="num">TTH</th><th class="num">T2Find</th><th class="num">T2Fill</th></tr>
-  {% for r in table[:200] %}
+  {% for r in table[:50] %}
    <tr><td>{{ r.client_name }}</td><td>{{ r.job_title }}</td><td>{{ r.job_category }}</td><td>{{ r.ta }}</td>
        <td>{{ r.date_first_hired }}</td>
        <td class="num">{{ r.tth }}</td><td class="num">{{ r.t2find }}</td><td class="num">{{ r.t2fill }}</td></tr>
   {% endfor %}
  </table>
- {% if table|length > 200 %}<div class="sub">Showing first 200 of {{ table|length }}.</div>{% endif %}
+ {% if table|length > 50 %}<div class="sub">Showing first 50 of {{ table|length }}.</div>{% endif %}
 
- <div class="kai">
+ <div class="kai" id="kai">
    <strong>Ask Kai about this data</strong>
    {% if not kai_ready %}<div class="warn">Kai not configured — set the STORAGE_API_TOKEN (master token) secret to enable.</div>{% endif %}
-   <form method="post" action="/chat">
+   <form method="post" action="/chat#kai">
      <textarea name="q" rows="2" placeholder="e.g. average time to hire for tech roles in 2026 vs non-tech">{{ q or '' }}</textarea><br>
      <button type="submit" {{ 'disabled' if not kai_ready }}>Ask</button>
    </form>

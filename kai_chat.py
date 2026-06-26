@@ -48,14 +48,10 @@ def ask(question: str) -> str:
         async with client:
             chat_id = client.new_chat_id()
             out = ""
+            # Kai runs an agent loop (tool calls between turns). Do NOT break on the
+            # first "finish" event — that ends only the preamble turn, before the tools
+            # run. Consume the whole stream so we capture the final answer too.
             async for event in client.send_message(chat_id, question):
                 if event.type == "text":
                     out += event.text
-                elif event.type == "finish":
-                    break
-            return out or "(no answer)"
-
-    try:
-        return asyncio.run(_run())
-    except Exception as e:  # keep the PoC resilient; surface a short message
-        return f"Kai error: {e}"
+            

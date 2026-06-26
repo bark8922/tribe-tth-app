@@ -34,10 +34,14 @@ def is_configured():
 
 def ask(question: str) -> str:
     """Send one question to Kai and return the full text answer (blocking)."""
+    import asyncio, traceback
+
+    token_names = [k for k in os.environ if "TOKEN" in k.upper() or "STORAGE" in k.upper()]
+    print(f"[kai] token env names seen={token_names} configured={is_configured()}", flush=True)
+
     if not is_configured():
         return "Kai is not configured. Set the STORAGE_API_TOKEN (master token) secret."
 
-    import asyncio
     from kai_client import KaiClient
 
     async def _run():
@@ -48,10 +52,7 @@ def ask(question: str) -> str:
         async with client:
             chat_id = client.new_chat_id()
             out = ""
-            # Kai runs an agent loop (tool calls between turns). Do NOT break on the
-            # first "finish" event — that ends only the preamble turn, before the tools
-            # run. Consume the whole stream so we capture the final answer too.
-            async for event in client.send_message(chat_id, question):
-                if event.type == "text":
-                    out += event.text
+            counts = {}
+            # Kai runs an agent loop (tool calls between turns). Consume the WHOLE stream
+            # so we capture the final answer after the tool calls, not just the preamble.
             

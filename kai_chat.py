@@ -16,7 +16,8 @@ missing, the app still runs and the chat box reports "not configured".
 
 import os
 
-STORAGE_API_TOKEN = os.environ.get("STORAGE_API_TOKEN")  # MASTER token (secret)
+# Keboola injects a `#`-prefixed secret decrypted at runtime; accept either env var name.
+STORAGE_API_TOKEN = os.environ.get("STORAGE_API_TOKEN") or os.environ.get("#STORAGE_API_TOKEN")  # MASTER token (secret)
 STORAGE_API_URL = os.environ.get("STORAGE_API_URL", "https://connection.eu-central-1.keboola.com")
 
 
